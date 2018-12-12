@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootController : MonoBehaviour {
+public class BasicMovementController : MonoBehaviour {
 
     public float speed;
 
