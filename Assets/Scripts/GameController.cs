@@ -17,8 +17,8 @@ public class GameController : MonoBehaviour
 
     [Header("User Interface")]
     public Text scoreText;
-    public Text restartText;
-    public Text gameOverText;
+    public GameObject restartGameObject;
+    public GameObject gameOverGameObject;
 
     private bool gameOver;
     private bool restartMode;
@@ -30,8 +30,8 @@ public class GameController : MonoBehaviour
         gameOver = false;
         restartMode = false;
 
-        restartText.gameObject.SetActive(restartMode);
-        gameOverText.gameObject.SetActive(gameOver);
+        restartGameObject.SetActive(restartMode);
+        gameOverGameObject.SetActive(gameOver);
         UpdateScore();
         StartCoroutine(SpawnWaves());
     }
@@ -40,8 +40,7 @@ public class GameController : MonoBehaviour
     {
         if (restartMode && Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            
+            Restart();
         }
     }
 
@@ -60,7 +59,7 @@ public class GameController : MonoBehaviour
         } while (!gameOver);
 
         restartMode = true;
-        restartText.gameObject.SetActive(restartMode);
+        restartGameObject.SetActive(restartMode);
     }
 
     private void UpdateScore()
@@ -77,6 +76,11 @@ public class GameController : MonoBehaviour
     public void GameOver()
     {
         gameOver = true;
-        gameOverText.gameObject.SetActive(gameOver);
+        gameOverGameObject.SetActive(gameOver);
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

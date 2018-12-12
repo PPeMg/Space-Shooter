@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 [System.Serializable]
 public class Boundary
@@ -33,7 +34,7 @@ public class PlayerController : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.GetButton("Fire1") && Time.time > nextFire)
+        if (CrossPlatformInputManager.GetButton("Fire1") && Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
             Instantiate(shoot, shootSpawn.position, Quaternion.identity);
@@ -41,9 +42,9 @@ public class PlayerController : MonoBehaviour {
     }
 
     void FixedUpdate () {
-        float speedHorizontal = Input.GetAxis("Horizontal") * speed;
-        float speedVertical = Input.GetAxis("Vertical") * speed;
-        float speedRotation = Input.GetAxis("Horizontal");
+        float speedHorizontal = CrossPlatformInputManager.GetAxis("Horizontal") * speed;
+        float speedVertical = CrossPlatformInputManager.GetAxis("Vertical") * speed;
+        float speedRotation = CrossPlatformInputManager.GetAxis("Horizontal");
 
         rig.velocity = new Vector3(speedHorizontal, 0f, speedVertical);
         rig.position = new Vector3(Mathf.Clamp(rig.position.x, boundary.xMin, boundary.xMax), 0, Mathf.Clamp(rig.position.z, boundary.zMin, boundary.zMax));
