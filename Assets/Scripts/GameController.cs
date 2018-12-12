@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class GameController : MonoBehaviour {
+public class GameController : MonoBehaviour
+{
 
+    [Header("Waves")]
     public GameObject hazard;
     public Vector3 spawnValues;
     public int waveSize;
@@ -11,14 +15,38 @@ public class GameController : MonoBehaviour {
     public float startWait;
     public float waveWait;
 
-    private bool endGame;
+    [Header("User Interface")]
+    public Text scoreText;
+    public Text restartText;
+    public Text gameOverText;
 
-    void Start () {
-        endGame = false;
+    private bool gameOver;
+    private bool restartMode;
+    private int score;
+
+    void Start()
+    {
+        score = 0;
+        gameOver = false;
+        restartMode = false;
+
+        restartText.gameObject.SetActive(restartMode);
+        gameOverText.gameObject.SetActive(gameOver);
+        UpdateScore();
         StartCoroutine(SpawnWaves());
-	}
-	
-	IEnumerator SpawnWaves () {
+    }
+
+    void Update()
+    {
+        if (restartMode && Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            
+        }
+    }
+
+    IEnumerator SpawnWaves()
+    {
         yield return new WaitForSeconds(startWait);
         do
         {
@@ -28,6 +56,27 @@ public class GameController : MonoBehaviour {
                 Instantiate(hazard, spawnPosition, Quaternion.identity);
                 yield return new WaitForSeconds(spawnWait);
             }
-        } while (!endGame);
-	}
+            yield return new WaitForSeconds(waveWait);
+        } while (!gameOver);
+
+        restartMode = true;
+        restartText.gameObject.SetActive(restartMode);
+    }
+
+    private void UpdateScore()
+    {
+        scoreText.text = "Score: " + score;
+    }
+
+    public void AddScore(int pointsScored = 1)
+    {
+        this.score += pointsScored;
+        UpdateScore();
+    }
+
+    public void GameOver()
+    {
+        gameOver = true;
+        gameOverText.gameObject.SetActive(gameOver);
+    }
 }
