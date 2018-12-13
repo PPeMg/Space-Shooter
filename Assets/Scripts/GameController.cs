@@ -30,10 +30,19 @@ public class GameController : MonoBehaviour
         gameOver = false;
         restartMode = false;
 
+        UpdateSpawnValues();
         restartGameObject.SetActive(restartMode);
         gameOverGameObject.SetActive(gameOver);
         UpdateScore();
         StartCoroutine(SpawnWaves());
+    }
+    private void UpdateSpawnValues()
+    {
+        Vector2 halfDimensions = Utils.GetDimensionsInWorldUnits() / 2;
+
+        spawnValues = new Vector3(halfDimensions.x - 0.7f, 0, halfDimensions.y + 6f);
+
+        Debug.Log(halfDimensions);
     }
 
     void Update()

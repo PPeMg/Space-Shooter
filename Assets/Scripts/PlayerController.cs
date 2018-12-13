@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
@@ -31,6 +32,22 @@ public class PlayerController : MonoBehaviour {
         shootSpawn = GameObject.Find("Shoot Spawn").GetComponent<Transform>();
         nextFire = 0f;
 	}
+
+    private void Start()
+    {
+        UpdateBoundarys();
+    }
+
+    private void UpdateBoundarys()
+    {
+        Vector2 halfDimensions = Utils.GetDimensionsInWorldUnits() / 2;
+        
+
+        this.boundary.xMin = -halfDimensions.x + 0.7f;
+        this.boundary.xMax =  halfDimensions.x - 0.7f;
+        this.boundary.zMin = -halfDimensions.y + 6f;
+        this.boundary.zMax =  halfDimensions.y - 2f;
+    }
 
     private void Update()
     {
