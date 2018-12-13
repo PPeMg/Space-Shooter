@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour
 {
 
     [Header("Waves")]
-    public GameObject hazard;
+    public GameObject[] hazard;
     public Vector3 spawnValues;
     public int waveSize;
     public float spawnWait;
@@ -61,7 +61,7 @@ public class GameController : MonoBehaviour
             for (int i = 0; i < waveSize; i++)
             {
                 Vector3 spawnPosition = new Vector3(Random.Range(-1 * spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
-                Instantiate(hazard, spawnPosition, Quaternion.identity);
+                Instantiate(hazard[Random.Range(0, hazard.Length)], spawnPosition, Quaternion.identity);
                 yield return new WaitForSeconds(spawnWait);
             }
             yield return new WaitForSeconds(waveWait);
